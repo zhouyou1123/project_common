@@ -1,0 +1,88 @@
+<configuration>
+	<!-- always a good activate OnConsoleStatusListener -->
+	<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+	<appender name="logFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>50GB</totalSizeCap>
+			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>		
+		<encoder>
+			<pattern>				
+				%t{yyyy-MM-dd HH:mm:ss.SSS} - {
+				"requestUri":"%U",
+				"elapsedTime":"%D",
+				"costs":%D,
+				"status_code":"%s",
+				"realIP":"%reqAttribute{realIP}",
+				"userId":"%reqAttribute{userId}",				
+				"adminId":"%reqAttribute{adminId}",
+				"financeId":"%reqAttribute{financeId}",
+				"clientType":"%reqAttribute{clientType}",		
+				"requestHeader":[{
+				"x_youle_type":"%header{x_youle_type}",
+				"x_youle_appid":"%header{x_youle_appid}",
+				"x_youle_appsignkey":"%header{x_youle_appsignkey}",				
+				"x_youle_sessiontoken":"%header{x_youle_sessiontoken}",	
+				"x_youle_cameraimei":"%header{x_youle_cameraimei}",	
+				"x_youle_flag":"%header{x_youle_flag}",	
+				"x_youle_admintoken":"%header{x_youle_admintoken}",	
+				"x_youle_parkid":"%header{x_youle_parkid}",	
+				"x_youle_financetoken":"%header{x_youle_financetoken}",
+				"x_youle_devicetoken":"%header{x_youle_devicetoken}",
+				"connection":"%header{connection}",
+				"contentType":"%header{content-type}",
+				"userAgent":"%header{user-agent}"
+				}],
+				"request":%requestContent,
+				"response":%responseContent
+				}
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				%t{yyyy-MM-dd HH:mm:ss.SSS} - {
+				"requestUri":"%U", -
+				"elapsedTime":"%D", -
+				"costs":%D, 
+				"status_code":"%s", 
+				"realIP":"%reqAttribute{realIP}", 
+				"userId":"%reqAttribute{userId}", 
+				"adminId":"%reqAttribute{adminId}",				
+				"financeId":"%reqAttribute{financeId}",
+				"clientType":"%reqAttribute{clientType}",		
+				"requestHeader":[{
+				"x_youle_type":"%header{x_youle_type}",
+				"x_youle_appid":"%header{x_youle_appid}",
+				"x_youle_appsignkey":"%header{x_youle_appsignkey}",				
+				"x_youle_sessiontoken":"%header{x_youle_sessiontoken}",	
+				"x_youle_cameraimei":"%header{x_youle_cameraimei}",	
+				"x_youle_flag":"%header{x_youle_flag}",	
+				"x_youle_admintoken":"%header{x_youle_admintoken}",
+				"x_youle_parkid":"%header{x_youle_parkid}",					
+				"x_youle_financetoken":"%header{x_youle_financetoken}",
+				"x_youle_devicetoken":"%header{x_youle_devicetoken}",
+				"connection":"%header{connection}",
+				"contentType":"%header{content-type}",
+				"userAgent":"%header{user-agent}"
+				}],
+				"request":%requestContent,
+				"response":%responseContent
+				}
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender-ref ref="logFile" />
+	<appender-ref ref="CONSOLE" />
+</configuration>

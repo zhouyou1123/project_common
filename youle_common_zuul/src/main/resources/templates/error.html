@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8" />
+<title>error</title>
+<style type="text/css">
+body {
+	margin: 0 auto;
+	text-align: center;
+	background: #EDEDED;
+}
+
+.div500 {
+	position: absolute;
+	width: 800px;
+	height: 400px;
+	top: 30%;
+	left: 50%;
+	margin:-100px 0px 0px -400px;
+	background-image: url('/images/500.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.div404 {
+	position: absolute;
+	width: 800px;
+	height: 400px;
+	top: 30%;
+	left: 50%;
+	margin:-100px 0px 0px -400px;
+	background-image: url('/images/404.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+</style>
+</head>
+<body>
+	<h1>System error</h1>
+	<div th:if="${code=='Error Code :500'}">
+		<div class="div500"></div>
+	</div>
+	<div th:if="${code=='Error Code :404'}">
+		<div class="div404"></div>
+	</div>
+	<div th:text="${code}"></div>
+	<div th:text="${error}"></div>
+	<div th:text="${timestamp}"></div>
+
+</body>
+</html>

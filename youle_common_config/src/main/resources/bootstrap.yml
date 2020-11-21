@@ -1,0 +1,31 @@
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://eureka.pre-youle.sioeye.com/eureka/
+      defaultZone: http://localhost:7000/eureka/
+logging:
+  file: \sioeye\disney\logs\springcloud\config\config.log
+  level:
+    org:
+      springframework:
+        boot: info
+server:
+  port: 7010
+spring:
+  application:
+    name: youle-common-config
+  cloud:
+    config:
+      server:
+        git:
+          password: ''
+        native:
+          #searchLocations: file:D:\\software\\sts_youle_workspace\\native spring cloud config\\config-files
+          searchLocations: file:E:\\git_workspace\\config_files
+  profiles:
+    active: native
+  rabbitmq:
+    host: 52.83.252.215
+    port: 5672
+    username: sioeye
+    password: 123456qwe

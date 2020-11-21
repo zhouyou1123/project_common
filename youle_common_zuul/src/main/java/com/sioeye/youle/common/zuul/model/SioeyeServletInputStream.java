@@ -1,0 +1,84 @@
+package com.sioeye.youle.common.zuul.model;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+
+public class SioeyeServletInputStream extends ServletInputStream {
+
+    InputStream in;
+    byte[] inputBuffer;
+
+    SioeyeServletInputStream(HttpServletRequest request) {
+        duplicateInputStream(request);
+    }
+
+    private void duplicateInputStream(HttpServletRequest request) {
+        ServletInputStream originalSIS = null;
+        try {
+            originalSIS = request.getInputStream();
+            inputBuffer = consumeBufferAndReturnAsByteArray(originalSIS);
+            this.in = new ByteArrayInputStream(inputBuffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeStream(originalSIS);
+        }
+    }
+    
+    
+
+    public InputStream getIn() {
+		return in;
+	}
+
+	@Override
+    public int read() throws IOException {
+        return in.read();
+    }
+
+    byte[] consumeBufferAndReturnAsByteArray(InputStream is) throws IOException {
+        int len = 1024;
+        byte[] temp = new byte[len];
+        int c = -1;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        while ((c = is.read(temp, 0, len)) != -1) {
+            baos.write(temp, 0, c);
+        }
+        return baos.toByteArray();
+    }
+
+    void closeStream(ServletInputStream is) {
+        if (is != null) {
+            try {
+                is.close();
+            } catch (IOException e) {
+            }
+        }
+    }
+
+    byte[] getInputBuffer() {
+        return inputBuffer;
+    }
+
+    @Override
+    public boolean isFinished() {
+        throw new RuntimeException("Not yet implemented");
+    }
+
+    @Override
+    public boolean isReady() {
+        throw new RuntimeException("Not yet implemented");
+    }
+
+    @Override
+    public void setReadListener(ReadListener listener) {
+        throw new RuntimeException("Not yet implemented");
+    }
+
+}
